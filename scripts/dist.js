@@ -33,6 +33,13 @@ const
 module.exports = settings => {
     let compiler = webpack(settings);
 
+    // 打印输出信息
+    console.log(
+        '-'.repeat(80),
+        `\nProject is output to "${ settings.dist }"`,
+        `\n${ '-'.repeat(80) }`
+    );
+
     // 开始编译
     compiler.run((err, stats) => {
 

@@ -103,7 +103,7 @@ module.exports = settings => {
             loader: 'svgx-loader'
         },
         {
-            test: /\.tpl$/,
+            test: /\.(html|tpl)$/,
             loader: 'raw-loader'
         }
     ];

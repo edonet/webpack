@@ -14,7 +14,8 @@
  */
 const
     path = require('ylan/path'),
-    ip = require('ylan/ip');
+    ip = require('ylan/ip'),
+    dir = path.usedir(__dirname);
 
 
 /**
@@ -26,17 +27,20 @@ module.exports = ({ modules = [], ...settings }) => ({
     root: path.cwd(),
     src: path.cwd(settings.src || './src'),
     dist: path.cwd(settings.dir || './dist'),
-    index: settings.index || './index.html',
+    index: settings.index || dir('./index.html'),
     entry: settings.entry || './index.js',
-    filename: 'js/name.[chunkhash:8].js',
-    publicPath: settings.publicPath || '/',
+    filename: 'js/[name].[chunkhash:8].js',
+    publicPath: settings.publicPath || './',
     modules: [
-        path.resolve(__dirname, '../node_modules'),
+        dir('../node_modules'),
         path.cwd('./node_modules'),
         ...modules
     ],
     rules: settings.rules || [],
-    alias: settings.alias || {},
+    alias: {
+        vue: 'vue/dist/vue.js',
+        ...settings.alias
+    },
     externals: settings.externals || {},
     devServer: {
         hot: true,
@@ -66,6 +70,7 @@ module.exports = ({ modules = [], ...settings }) => ({
         children: false,
         chunks: false,
         chunkModules: false,
+        entrypoints: false,
         ...settings.stats
     }
 });

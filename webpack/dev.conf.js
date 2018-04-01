@@ -47,7 +47,7 @@ module.exports = settings => ({
         new ExtractTextPlugin({ disable: true }),
         new HtmlWebpackPlugin({
             template: settings.index,
-            filename: path.basename(settings.index),
+            filename: settings.index && path.basename(settings.index),
             minify: {
                 html5: true,
                 removeComments: true,
