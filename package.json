@@ -30,10 +30,11 @@
         "style-loader": "^0.20.3",
         "svgx-loader": "^0.0.3",
         "url-loader": "^1.0.1",
+        "var-importer": "^0.1.307",
         "vue": "^2.5.16",
         "webpack": "^4.4.1",
         "webpack-dev-server": "^3.1.1",
         "yargs": "^11.0.0",
-        "ylan": "^0.0.102"
+        "ylan": "^0.0.104"
     }
 }

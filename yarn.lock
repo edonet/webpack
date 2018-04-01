@@ -570,7 +570,7 @@ babel-plugin-transform-es2015-modules-amd@^6.22.0, babel-plugin-transform-es2015
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
 
-babel-plugin-transform-es2015-modules-commonjs@^6.23.0, babel-plugin-transform-es2015-modules-commonjs@^6.24.1:
+babel-plugin-transform-es2015-modules-commonjs@^6.23.0, babel-plugin-transform-es2015-modules-commonjs@^6.24.1, babel-plugin-transform-es2015-modules-commonjs@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-es2015-modules-commonjs/-/babel-plugin-transform-es2015-modules-commonjs-6.26.0.tgz#0d8394029b7dc6abe1a97ef181e00758dd2e5d8a"
   dependencies:
@@ -5685,6 +5685,13 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
+var-importer@^0.1.307:
+  version "0.1.307"
+  resolved "https://registry.yarnpkg.com/var-importer/-/var-importer-0.1.307.tgz#c71b80662313426eff378ed6b21aae0888a6b22b"
+  dependencies:
+    babel-core "^6.26.0"
+    babel-plugin-transform-es2015-modules-commonjs "^6.26.0"
+
 vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
@@ -5953,6 +5960,6 @@ yargs@^7.0.0:
     y18n "^3.2.1"
     yargs-parser "^5.0.0"
 
-ylan@^0.0.102:
-  version "0.0.102"
-  resolved "https://registry.yarnpkg.com/ylan/-/ylan-0.0.102.tgz#ac6679097e0c1b6297cc2b1a7f18d944b03c94b0"
+ylan@^0.0.104:
+  version "0.0.104"
+  resolved "https://registry.yarnpkg.com/ylan/-/ylan-0.0.104.tgz#aa252d2f75925f1eaff1f1b5986c73b55097e83b"

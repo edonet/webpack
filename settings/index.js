@@ -22,27 +22,30 @@ const
  * 定义配置
  *****************************************
  */
-module.exports = {
-    context: path.cwd(),
-    src: './src',
-    dist: './dist',
-    filename: 'name.[chunkhash:8].js',
-    publicPath: './',
+module.exports = ({ modules = [], ...settings }) => ({
+    root: path.cwd(),
+    src: path.cwd(settings.src || './src'),
+    dist: path.cwd(settings.dir || './dist'),
+    index: settings.index || './index.html',
+    entry: settings.entry || './index.js',
+    filename: 'js/name.[chunkhash:8].js',
+    publicPath: settings.publicPath || '/',
     modules: [
         path.resolve(__dirname, '../node_modules'),
-        path.cwd('./node_modules')
+        path.cwd('./node_modules'),
+        ...modules
     ],
-    alias: {},
-    externals: {},
+    rules: settings.rules || [],
+    alias: settings.alias || {},
+    externals: settings.externals || {},
     devServer: {
         hot: true,
         hotOnly: true,
         host: ip(),
         port: 10060,
         https: false,
-        disableHostCheck: true,
-        contentBase: './dist',
         publicPath: '/',
+        disableHostCheck: true,
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': 'true',
@@ -55,12 +58,14 @@ module.exports = {
         },
         compress: true,
         inline: true,
-        stats: {
-            colors: true,
-            modules: false,
-            children: false,
-            chunks: false,
-            chunkModules: false
-        }
+        ...settings.devServer
+    },
+    stats: {
+        colors: true,
+        modules: false,
+        children: false,
+        chunks: false,
+        chunkModules: false,
+        ...settings.stats
     }
-};
+});

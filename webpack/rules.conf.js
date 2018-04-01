@@ -10,6 +10,7 @@ const
     varImporter = require('var-importer'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
     postCSSOptions = require('./postcss.conf'),
+    isDevelopment = process.env.NODE_ENV === 'development',
     resolve = require.resolve;
 
 
@@ -21,7 +22,7 @@ const
 function loaderCreator(app) {
     return (name, options) => ({
         loader: name + '-loader',
-        options: Object.assign({ sourceMap: !app.isProduction }, options)
+        options: Object.assign({ sourceMap: isDevelopment }, options)
     });
 }
 
@@ -39,6 +40,7 @@ module.exports = settings => {
 
     // 加载器列表
     return [
+        ...settings.rules,
         {
             test: /\.jsx?$/,
             exclude: /node_modules[\\/]+(?!webpack-dev-server)/,
@@ -66,7 +68,7 @@ module.exports = settings => {
                         use: [
                             resolve('./lib/precss-loader'),
                             loader('css', {
-                                minimize: true, modules: true, localIdentName: '[local]-[hash:base64:6]'
+                                minimize: true, modules: true, localIdentName: '[local]-[hash:base64:8]'
                             }),
                             postcssLoader, sassLoader
                         ]

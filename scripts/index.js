@@ -17,6 +17,7 @@
  */
 const
     yargs = require('yargs'),
+    fs = require('ylan/fs'),
     path = require('ylan/path'),
     stdout = require('ylan/stdout'),
     settings = require('../settings');
@@ -29,7 +30,6 @@ const
  */
 yargs
     .alias('c', 'config')
-    .default('config', './settings.js')
     .alias('p', 'prod')
     .boolean('prod');
 
@@ -41,27 +41,18 @@ yargs
  */
 async function run() {
     let argv = yargs.argv,
-        env = argv.prod ? 'production' : 'development';
+        task = argv.prod ? './dist.js' : './dev.js',
+        config = argv.config;
 
-
-    /* 设置环境变量 */
-    process.env.NODE_ENV = 'development';
-    process.env.BABEL_ENV = 'development';
-
-    /* 获取本地配置 */
-    try {
-        let data = require(path.cwd(argv.config));
-
-        // 合并配置
-        if (data && typeof data === 'object') {
-            console.log(data);
-        }
-
-    } catch (err) {
-        // do nothing;
+    // 获取配置文件
+    if (!config) {
+        config = await fs.find('yack.conf.js', 'yack.js', 'settings.js');
     }
 
-    console.log(settings);
+    /* 执行打包回调 */
+    await require(task)(
+        settings(config ? fs.resolve(config.path) : {})
+    );
 }
 
 
