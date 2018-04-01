@@ -22,6 +22,7 @@ process.env.BABEL_ENV = 'production';
  *****************************************
  */
 const
+    fs = require('ylan/fs'),
     webpack = require('../webpack');
 
 
@@ -30,8 +31,10 @@ const
  * 启动打包
  *****************************************
  */
-module.exports = settings => {
-    let compiler = webpack(settings);
+module.exports = async settings => {
+
+    // 清除输出目录
+    await fs.rmdir(settings.dist);
 
     // 打印输出信息
     console.log(
@@ -41,7 +44,7 @@ module.exports = settings => {
     );
 
     // 开始编译
-    compiler.run((err, stats) => {
+    webpack(settings).run((err, stats) => {
 
         // 处理错误信息
         if (err) {

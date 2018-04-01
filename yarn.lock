@@ -5960,6 +5960,6 @@ yargs@^7.0.0:
     y18n "^3.2.1"
     yargs-parser "^5.0.0"
 
-ylan@^0.0.104:
-  version "0.0.104"
-  resolved "https://registry.yarnpkg.com/ylan/-/ylan-0.0.104.tgz#aa252d2f75925f1eaff1f1b5986c73b55097e83b"
+ylan@^0.0.105:
+  version "0.0.105"
+  resolved "https://registry.yarnpkg.com/ylan/-/ylan-0.0.105.tgz#1e9a91441c94c994e05ff36ac5fe8eb1df4d7384"
