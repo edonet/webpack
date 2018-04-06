@@ -41,6 +41,7 @@ module.exports = settings => ({
         rules: rules(settings),
         noParse: /\.min(\.[\w]+)?$/
     },
+    externals: settings.externals,
     optimization: {
         minimize: true,
         runtimeChunk: {

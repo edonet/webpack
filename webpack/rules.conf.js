@@ -66,7 +66,6 @@ module.exports = settings => {
                     use: ExtractTextPlugin.extract({
                         fallback: 'style-loader',
                         use: [
-                            resolve('./lib/precss-loader'),
                             loader('css', {
                                 minimize: true, modules: true, localIdentName: '[local]-[hash:base64:8]'
                             }),
