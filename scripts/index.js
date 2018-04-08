@@ -18,7 +18,6 @@
 const
     yargs = require('yargs'),
     fs = require('ylan/fs'),
-    path = require('ylan/path'),
     stdout = require('ylan/stdout'),
     settings = require('../settings');
 
