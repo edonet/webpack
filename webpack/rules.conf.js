@@ -19,7 +19,7 @@ const
  * 定义生成加载器方法
  ****************************************
  */
-function loaderCreator(app) {
+function loaderCreator() {
     return (name, options) => ({
         loader: name + '-loader',
         options: Object.assign({ sourceMap: isDevelopment }, options)
@@ -43,7 +43,7 @@ module.exports = settings => {
         ...settings.rules,
         {
             test: /\.jsx?$/,
-            exclude: /node_modules[\\/]+(?!webpack-dev-server)/,
+            exclude: /node_modules[\\/]+(?!webpack-dev-server|ylan)/,
             loader: 'babel-loader',
             options: {
                 presets: [resolve('babel-preset-react-app')]
