@@ -15,6 +15,7 @@
 const
     path = require('ylan/path'),
     ip = require('ylan/ip'),
+    cwd = path.cwd,
     dir = path.usedir(__dirname);
 
 
@@ -24,16 +25,16 @@ const
  *****************************************
  */
 module.exports = ({ modules = [], ...settings }) => ({
-    root: path.cwd(),
-    src: path.cwd(settings.src || './src'),
-    dist: path.cwd(settings.dir || './dist'),
+    root: cwd(),
+    src: cwd(settings.src || './src'),
+    dist: cwd(settings.dir || './dist'),
     index: settings.index || dir('./index.html'),
     entry: settings.entry || './index.js',
     filename: 'js/[name].[chunkhash:8].js',
     publicPath: settings.publicPath || './',
     modules: [
+        cwd('./node_modules'),
         dir('../node_modules'),
-        path.cwd('./node_modules'),
         ...modules
     ],
     rules: settings.rules || [],
