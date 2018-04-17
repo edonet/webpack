@@ -57,7 +57,7 @@ module.exports = settings => {
                     use: ExtractTextPlugin.extract({
                         fallback: 'style-loader',
                         use: [
-                            loader('css', { minimize: true }),
+                            loader('css', { minimize: isDevelopment }),
                             postcssLoader, sassLoader
                         ]
                     })
@@ -67,7 +67,10 @@ module.exports = settings => {
                         fallback: 'style-loader',
                         use: [
                             loader('css', {
-                                minimize: true, modules: true, localIdentName: '[local]-[hash:base64:8]'
+                                minimize: isDevelopment,
+                                modules: true,
+                                camelCase: 'dashes',
+                                localIdentName: '[local]-[hash:base64:8]'
                             }),
                             postcssLoader, sassLoader
                         ]
@@ -102,7 +105,7 @@ module.exports = settings => {
             loader: 'svgx-loader'
         },
         {
-            test: /\.(html|tpl)$/,
+            test: /\.(html|md|tpl)$/,
             loader: 'raw-loader'
         }
     ];

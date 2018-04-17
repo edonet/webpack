@@ -37,7 +37,7 @@ module.exports = settings => ({
         }),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
-        new ExtractTextPlugin('css/[name]-[chunkhash:8].css'),
+        new ExtractTextPlugin('css/[name].[chunkhash:8].css'),
         new HtmlWebpackPlugin({
             filename: path.basename(settings.index),
             template: settings.index,

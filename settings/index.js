@@ -39,10 +39,11 @@ module.exports = ({ modules = [], ...settings }) => ({
     ],
     rules: settings.rules || [],
     alias: {
-        vue: 'vue/dist/vue.js',
+        vue: 'vue/dist/vue.esm.js',
         ...settings.alias
     },
     externals: settings.externals || {},
+    optimization: settings.optimization,
     devServer: {
         hot: true,
         hotOnly: true,

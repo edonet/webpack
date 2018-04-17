@@ -13,7 +13,8 @@
  ****************************************
  */
 const
-    rules = require('./rules.conf');
+    rules = require('./rules.conf'),
+    isProduction = process.env.NODE_ENV === 'production';
 
 
 /*
@@ -42,8 +43,8 @@ module.exports = settings => ({
         noParse: /\.min(\.[\w]+)?$/
     },
     externals: settings.externals,
-    optimization: {
-        minimize: true,
+    optimization: settings.optimization || {
+        minimize: isProduction,
         runtimeChunk: {
             name: 'manifest'
         },
