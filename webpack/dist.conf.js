@@ -17,6 +17,7 @@ const
     webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    VueLoaderPlugin = require('vue-loader/lib/plugin'),
     base = require('./base.conf');
 
 
@@ -32,6 +33,7 @@ module.exports = settings => ({
     },
     mode: 'production',
     plugins: [
+        new VueLoaderPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         }),

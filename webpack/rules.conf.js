@@ -27,6 +27,18 @@ function loaderCreator() {
 }
 
 
+/**
+ *****************************************
+ * 提取样式
+ *****************************************
+ */
+function extractStyle(...loaders) {
+    return ExtractTextPlugin.extract({
+        fallback: 'style-loader', use: loaders
+    });
+}
+
+
 /*
  ****************************************
  * 输出配置项
@@ -35,7 +47,13 @@ function loaderCreator() {
 module.exports = settings => {
     let loader = loaderCreator(settings),
         postcssLoader = loader('postcss', postCSSOptions),
-        sassLoader = loader('sass', { importer: varImporter({ alias: settings.alias }) });
+        sassLoader = loader('sass', { importer: varImporter({ alias: settings.alias }) }),
+        cssModules = {
+            minimize: isDevelopment,
+            modules: true,
+            camelCase: 'dashes',
+            localIdentName: '[local]-[hash:base64:8]'
+        };
 
 
     // 加载器列表
@@ -50,31 +68,27 @@ module.exports = settings => {
             }
         },
         {
+            test: /\.vue?$/,
+            loader: 'vue-loader',
+            options: {
+                cssModules,
+                postcss: postCSSOptions,
+                extractCSS: true
+            }
+        },
+        {
             test: /\.s?css$/,
             oneOf: [
                 {
                     resourceQuery: /global/,
-                    use: ExtractTextPlugin.extract({
-                        fallback: 'style-loader',
-                        use: [
-                            loader('css', { minimize: isDevelopment }),
-                            postcssLoader, sassLoader
-                        ]
-                    })
+                    use: extractStyle(
+                        loader('css', { minimize: isDevelopment }), postcssLoader, sassLoader
+                    )
                 },
                 {
-                    use: ExtractTextPlugin.extract({
-                        fallback: 'style-loader',
-                        use: [
-                            loader('css', {
-                                minimize: isDevelopment,
-                                modules: true,
-                                camelCase: 'dashes',
-                                localIdentName: '[local]-[hash:base64:8]'
-                            }),
-                            postcssLoader, sassLoader
-                        ]
-                    })
+                    use: extractStyle(
+                        loader('css', cssModules), postcssLoader, sassLoader
+                    )
                 }
             ]
         },
