@@ -33,9 +33,9 @@ module.exports = ({ modules = [], ...settings }) => ({
     filename: 'js/[name].[chunkhash:8].js',
     publicPath: settings.publicPath || './',
     modules: [
+        ...modules,
         cwd('./node_modules'),
-        dir('../node_modules'),
-        ...modules
+        dir('../node_modules')
     ],
     rules: settings.rules || [],
     alias: {
