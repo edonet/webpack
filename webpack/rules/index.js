@@ -111,6 +111,10 @@ module.exports = settings => {
             }
         },
         {
+            test: /icon\.json$/,
+            loader: resolve('./icon-loader.js')
+        },
+        {
             test: /\.(html|md|tpl)$/,
             loader: 'raw-loader'
         }
