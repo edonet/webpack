@@ -1,16 +1,21 @@
+/**
+ *****************************************
+ * Created by lifx
+ * Created on 2018-05-28 14:08:06
+ *****************************************
+ */
 'use strict';
 
 
-/*
- ****************************************
- * 加载依赖模块
- ****************************************
+/**
+ *****************************************
+ * 加载依赖
+ *****************************************
  */
 const
-    varImporter = require('var-importer'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    MiniCssExtractPlugin = require('mini-css-extract-plugin'),
     postCSSOptions = require('./postcss.conf'),
-    isDevelopment = process.env.NODE_ENV === 'development',
+    isProduction = process.env.NODE_ENV === 'production',
     resolve = require.resolve;
 
 
@@ -22,41 +27,30 @@ const
 function loaderCreator() {
     return (name, options) => ({
         loader: name + '-loader',
-        options: Object.assign({ sourceMap: isDevelopment }, options)
+        options: { sourceMap: isProduction, ...options }
     });
 }
 
 
 /**
  *****************************************
- * 提取样式
+ * 生成加载规则
  *****************************************
  */
-function extractStyle(...loaders) {
-    return ExtractTextPlugin.extract({
-        fallback: 'style-loader', use: loaders
-    });
-}
-
-
-/*
- ****************************************
- * 输出配置项
- ****************************************
- */
 module.exports = settings => {
-    let loader = loaderCreator(settings),
+    let loader = loaderCreator(),
         postcssLoader = loader('postcss', postCSSOptions),
-        sassLoader = loader('sass', { importer: varImporter({ alias: settings.alias }) }),
+        sassLoader = loader('sass'),
+        styleLoader = isProduction ? MiniCssExtractPlugin.loader : loader('style'),
         cssModules = {
-            minimize: isDevelopment,
+            minimize: isProduction,
             modules: true,
             camelCase: 'dashes',
             localIdentName: '[local]-[hash:base64:8]'
         };
 
 
-    // 加载器列表
+    // 返回规则
     return [
         ...settings.rules,
         {
@@ -81,14 +75,21 @@ module.exports = settings => {
             oneOf: [
                 {
                     resourceQuery: /global/,
-                    use: extractStyle(
-                        loader('css', { minimize: isDevelopment }), postcssLoader, sassLoader
-                    )
+                    use: [
+                        styleLoader,
+                        loader('css', { minimize: isProduction }),
+                        postcssLoader,
+                        sassLoader
+                    ]
                 },
                 {
-                    use: extractStyle(
-                        loader('css', cssModules), postcssLoader, sassLoader
-                    )
+                    use: [
+                        styleLoader,
+                        { loader: resolve('./precss-loader.js') },
+                        loader('css', cssModules),
+                        postcssLoader,
+                        sassLoader
+                    ]
                 }
             ]
         },
@@ -108,15 +109,6 @@ module.exports = settings => {
                 limit: 8192,
                 name: 'fonts/[name].[hash:8].[ext]'
             }
-        },
-        {
-            test: /\.svgx$/,
-            loader: 'svgx-loader'
-        },
-        {
-            test: /\.svg$/,
-            include: /[\\/]svgx[\\/]/,
-            loader: 'svgx-loader'
         },
         {
             test: /\.(html|md|tpl)$/,

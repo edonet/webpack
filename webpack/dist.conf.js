@@ -16,9 +16,8 @@ const
     path = require('path'),
     webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    VueLoaderPlugin = require('vue-loader/lib/plugin'),
-    base = require('./base.conf');
+    MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+    VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 
 /**
@@ -27,19 +26,17 @@ const
  *************************************
  */
 module.exports = settings => ({
-    ...base(settings),
     entry: {
         app: ['babel-polyfill', settings.entry]
     },
     mode: 'production',
     plugins: [
         new VueLoaderPlugin(),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-        }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
-        new ExtractTextPlugin('css/[name].[chunkhash:8].css'),
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[chunkhash:8].css',
+            chunkFilename: 'css/[name].[chunkhash:8].css'
+        }),
         new HtmlWebpackPlugin({
             filename: path.basename(settings.index),
             template: settings.index,

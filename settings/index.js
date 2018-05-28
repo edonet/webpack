@@ -26,12 +26,12 @@ const
  */
 module.exports = ({ modules = [], ...settings }) => ({
     root: cwd(),
-    src: cwd(settings.src || './src'),
-    dist: cwd(settings.dir || './dist'),
+    src: cwd(settings.src),
+    dist: cwd(settings.dist),
     index: settings.index || dir('./index.html'),
-    entry: settings.entry || './index.js',
-    filename: 'js/[name].[chunkhash:8].js',
-    publicPath: settings.publicPath || './',
+    entry: settings.entry,
+    filename: settings.filename,
+    publicPath: settings.publicPath,
     modules: [
         ...modules,
         cwd('./node_modules'),
@@ -48,7 +48,7 @@ module.exports = ({ modules = [], ...settings }) => ({
         hot: true,
         hotOnly: true,
         host: ip(),
-        port: 10060,
+        port: settings.port,
         https: false,
         publicPath: '/',
         disableHostCheck: true,

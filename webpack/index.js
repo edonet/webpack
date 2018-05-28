@@ -1,7 +1,7 @@
 /**
  *****************************************
  * Created by lifx
- * Created on 2018-03-31 22:04:47
+ * Created on 2018-05-28 12:00:18
  *****************************************
  */
 'use strict';
@@ -19,9 +19,10 @@ const
 
 /**
  *****************************************
- * 输出配置
+ * 生成配置
  *****************************************
  */
-module.exports = settings => webpack(
-    require(isProduction ? './dist.conf' : './dev.conf')(settings)
-);
+module.exports = settings => webpack({
+    ...require('./base.conf')(settings),
+    ...require(isProduction ? './dist.conf' : './dev.conf')(settings)
+});

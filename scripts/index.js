@@ -30,6 +30,13 @@ const
 yargs
     .alias('c', 'config')
     .alias('p', 'prod')
+    .default('src', './src')
+    .default('dist', './dist')
+    .default('framework', 'react')
+    .default('entry', './index.js')
+    .default('filename', 'js/[name].[chunkhash:8].js')
+    .default('publicPath', './')
+    .default('port', 10060)
     .boolean('prod');
 
 
@@ -50,7 +57,7 @@ async function run() {
 
     /* 执行打包回调 */
     await require(task)(
-        settings(config ? fs.resolve(config.path) : {})
+        settings({ ...(config ? fs.resolve(config.path) : {}), ...argv })
     );
 }
 
