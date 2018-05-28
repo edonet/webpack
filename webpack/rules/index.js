@@ -111,7 +111,7 @@ module.exports = settings => {
             }
         },
         {
-            test: /icon\.json$/,
+            test: /\.icons$/,
             loader: resolve('./icon-loader.js')
         },
         {
