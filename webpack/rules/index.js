@@ -111,8 +111,8 @@ module.exports = settings => {
             }
         },
         {
-            test: /\.icons$/,
-            loader: resolve('./icon-loader.js')
+            test: /\.svgs$/,
+            loader: 'svgs-loader'
         },
         {
             test: /\.(html|md|tpl)$/,
