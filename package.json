@@ -28,6 +28,7 @@
         "react-hot-loader": "^4.2.0",
         "sass-loader": "^7.0.1",
         "style-loader": "^0.21.0",
+        "svgs-loader": "^0.0.1",
         "url-loader": "^1.0.1",
         "var-importer": "^0.1.307",
         "vue": "^2.5.16",
