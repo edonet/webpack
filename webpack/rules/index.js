@@ -111,7 +111,7 @@ module.exports = settings => {
             }
         },
         {
-            test: /\.svgs$/,
+            test: /\.icon$/,
             loader: 'svgs-loader'
         },
         {
