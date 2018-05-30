@@ -9,10 +9,13 @@
 
 /**
  *****************************************
- * 定义加载状态
+ * 加载依赖
  *****************************************
  */
-let ready = false;
+const
+    fs = require('fs'),
+    path = require('path'),
+    { promisify } = require('util');
 
 
 /**
@@ -25,31 +28,83 @@ class OutputWebpackPlugin {
     // 初始化插件
     constructor(options) {
         this.options = options || {};
+        this.createOutputFile = this.createOutputFile.bind(this);
     }
 
     /* 定义插件执行方法 */
     apply(compiler) {
         let {
-                data = {},
-                test = /\{\{(.*?)\}\}/g,
-                callback: onEmitHandler
+                data,
+                match = /\{\{(.*?)\}\}/g,
+                callback: onEmitHandler = this.createOutputFile
             } = this.options;
 
 
+        // 添加插件勾子
         compiler.hooks.compilation.tap('OutputWebpackPlugin', compilation => {
             let ready = false;
 
-            compilation.hooks.htmlWebpackPluginAfterEmit.tapAsync('OutputWebpackPlugin', (data, cb) => {
+            // 添加模板生成前事件
+            compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('OutputWebpackPlugin', (chunk, callback) => {
+
+                // 替换模板变量
+                if (data && typeof data === 'object') {
+                    chunk.html = chunk.html.replace(match, (find, $1) => {
+                        let [key = '', val = ''] = $1.split(':');
+
+                        // 去除空白
+                        key = key.trim();
+                        val = val.trim();
+
+                        // 替换变量
+                        return key in data ? data[key] : val;
+                    });
+                }
 
                 // 执行回调
-                if (!ready) {
+                callback(null, chunk);
+            });
 
+            // 添加输出事件
+            compilation.hooks.htmlWebpackPluginAfterEmit.tapAsync('OutputWebpackPlugin', (data, callback) => {
+
+                // 执行回调
+                if (!ready && onEmitHandler) {
+                    let res = onEmitHandler(data, compiler);
+
+                    // 抛出错误
+                    if (res && 'then' in res) {
+                        res.catch(err => console.log(err));
+                    }
+
+                    // 更新标识
                     ready = true;
                 }
 
                 // 执行回调
-                cb(null, data);
+                callback(null, data);
             });
+        });
+    }
+
+    /* 生成输入文件 */
+    createOutputFile(data, compiler) {
+        let dist = compiler.options.output.path,
+            filename = this.options.filename || data.outputName;
+
+
+        // 获取目录状态
+        fs.stat(dist, async err => {
+
+            // 目录不存在
+            if (err) {
+                await promisify(fs.mkdir)(dist);
+            }
+
+            // 生成文件
+            await promisify(fs.writeFile)(
+                path.resolve(dist, filename), data.html.source()
+            );
         });
     }
 }

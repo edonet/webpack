@@ -16,6 +16,7 @@ const
     path = require('path'),
     webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
+    CopyWebpackPlugin = require('copy-webpack-plugin'),
     MiniCssExtractPlugin = require('mini-css-extract-plugin'),
     VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -33,6 +34,7 @@ module.exports = settings => ({
     plugins: [
         new VueLoaderPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
+        new CopyWebpackPlugin(settings.copy),
         new MiniCssExtractPlugin({
             filename: 'css/[name].[chunkhash:8].css',
             chunkFilename: 'css/[name].[chunkhash:8].css'

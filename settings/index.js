@@ -25,14 +25,15 @@ const
  *****************************************
  */
 module.exports = ({ modules = [], ...settings }) => ({
-    ...settings,
     root: cwd(),
+    app: settings.app,
     src: cwd(settings.src),
     dist: cwd(settings.dist),
     index: settings.index || dir('./index.html'),
     entry: settings.entry,
     filename: settings.filename,
     publicPath: settings.publicPath,
+    copy: settings.copy || [],
     modules: [
         ...modules,
         cwd('./node_modules'),
