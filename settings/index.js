@@ -25,6 +25,7 @@ const
  *****************************************
  */
 module.exports = ({ modules = [], ...settings }) => ({
+    ...settings,
     root: cwd(),
     src: cwd(settings.src),
     dist: cwd(settings.dist),

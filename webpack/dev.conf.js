@@ -16,7 +16,8 @@ const
     path = require('path'),
     webpack = require('webpack'),
     VueLoaderPlugin = require('vue-loader/lib/plugin'),
-    HtmlWebpackPlugin = require('html-webpack-plugin');
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    OutputWebpackPlugin = require('./lib/output-webpack-plugin');
 
 
 /**
@@ -46,6 +47,25 @@ module.exports = settings => ({
                 html5: true,
                 removeComments: true,
                 collapseWhitespace: true
+            }
+        }),
+        new OutputWebpackPlugin({
+            data: settings,
+            callback: chunk => {
+
+                // // 查看目录信息
+                // fs.stat(app.dist, async err => {
+
+                //     // 获取目标路径
+                //     let dir = path.resolve(app.dist, path.basename(app.index)),
+                //         data = chunk.html.source();
+
+                //     // 创建目录
+                //     err && await promisify(fs.mkdir)(app.dist);
+
+                //     // 生成文件
+                //     await promisify(fs.writeFile)(dir, data);
+                // });
             }
         })
     ]
