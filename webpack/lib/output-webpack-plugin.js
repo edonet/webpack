@@ -15,7 +15,8 @@
 const
     fs = require('fs'),
     path = require('path'),
-    { promisify } = require('util');
+    { promisify } = require('util'),
+    isDevelopment = process.env.NODE_ENV === 'development';
 
 
 /**
@@ -28,7 +29,6 @@ class OutputWebpackPlugin {
     // 初始化插件
     constructor(options) {
         this.options = options || {};
-        this.createOutputFile = this.createOutputFile.bind(this);
     }
 
     /* 定义插件执行方法 */
@@ -36,7 +36,8 @@ class OutputWebpackPlugin {
         let {
                 data,
                 match = /\{\{(.*?)\}\}/g,
-                callback: onEmitHandler = this.createOutputFile
+                filename = isDevelopment,
+                callback: onEmitHandler
             } = this.options;
 
 
@@ -69,13 +70,16 @@ class OutputWebpackPlugin {
             compilation.hooks.htmlWebpackPluginAfterEmit.tapAsync('OutputWebpackPlugin', (data, callback) => {
 
                 // 执行回调
-                if (!ready && onEmitHandler) {
-                    let res = onEmitHandler(data, compiler);
+                if (!ready) {
+                    let res = onEmitHandler && onEmitHandler.call(this, data, compiler);
 
                     // 抛出错误
                     if (res && 'then' in res) {
                         res.catch(err => console.log(err));
                     }
+
+                    // 输出开发入口文件
+                    filename && this.createOutputFile(filename, data, compiler);
 
                     // 更新标识
                     ready = true;
@@ -88,9 +92,9 @@ class OutputWebpackPlugin {
     }
 
     /* 生成输入文件 */
-    createOutputFile(data, compiler) {
+    createOutputFile(name, data, compiler) {
         let dist = compiler.options.output.path,
-            filename = this.options.filename || data.outputName;
+            filename = name === true ? data.outputName : name;
 
 
         // 获取目录状态

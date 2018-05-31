@@ -15,10 +15,11 @@
 const
     path = require('path'),
     webpack = require('webpack'),
+    VueLoaderPlugin = require('vue-loader/lib/plugin'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
     MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-    VueLoaderPlugin = require('vue-loader/lib/plugin');
+    OutputWebpackPlugin = require('./lib/output-webpack-plugin');
 
 
 /**
@@ -31,6 +32,9 @@ module.exports = settings => ({
         app: ['babel-polyfill', settings.entry]
     },
     mode: 'production',
+    performance: {
+        maxEntrypointSize: 1048576
+    },
     plugins: [
         new VueLoaderPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
@@ -47,6 +51,7 @@ module.exports = settings => ({
                 removeComments: true,
                 collapseWhitespace: true
             }
-        })
+        }),
+        new OutputWebpackPlugin({ data: settings.app })
     ]
 });
