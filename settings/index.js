@@ -26,7 +26,7 @@ const
  */
 module.exports = ({ modules = [], ...settings }) => ({
     root: cwd(),
-    app: settings.app,
+    app: settings.app || {},
     src: cwd(settings.src || 'src'),
     dist: cwd(settings.dist || 'dist'),
     index: settings.index || dir('./index.html'),
@@ -52,6 +52,7 @@ module.exports = ({ modules = [], ...settings }) => ({
         host: ip(),
         port: settings.port || 10060,
         https: false,
+        useLocalIp: true,
         publicPath: '/',
         disableHostCheck: true,
         headers: {
