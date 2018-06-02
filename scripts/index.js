@@ -30,13 +30,6 @@ const
 yargs
     .alias('c', 'config')
     .alias('p', 'prod')
-    .default('src', './src')
-    .default('dist', './dist')
-    .default('framework', 'react')
-    .default('entry', './index.js')
-    .default('filename', 'js/[name].[chunkhash:8].js')
-    .default('publicPath', './')
-    .default('port', 10060)
     .boolean('prod');
 
 
@@ -52,7 +45,7 @@ async function run() {
 
     // 获取配置文件
     if (!config) {
-        config = await fs.find('yack.conf.js', 'yack.js', 'settings.js');
+        config = await fs.find('yack.conf.js', 'yack.js', 'settings.js', 'settings.json');
     }
 
     /* 执行打包回调 */
