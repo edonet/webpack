@@ -43,7 +43,6 @@ class OutputWebpackPlugin {
 
         // 添加插件勾子
         compiler.hooks.compilation.tap('OutputWebpackPlugin', compilation => {
-            let ready = false;
 
             // 添加模板生成前事件
             compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('OutputWebpackPlugin', (chunk, callback) => {
@@ -70,7 +69,7 @@ class OutputWebpackPlugin {
             compilation.hooks.htmlWebpackPluginAfterEmit.tapAsync('OutputWebpackPlugin', (data, callback) => {
 
                 // 执行回调
-                if (!ready) {
+                if (!OutputWebpackPlugin.ready) {
                     let res = onEmitHandler && onEmitHandler.call(this, data, compiler);
 
                     // 抛出错误
@@ -82,7 +81,7 @@ class OutputWebpackPlugin {
                     filename && this.createOutputFile(filename, data, compiler);
 
                     // 更新标识
-                    ready = true;
+                    OutputWebpackPlugin.ready = true;
                 }
 
                 // 执行回调
