@@ -39,8 +39,7 @@ module.exports = settings => ({
         modules: settings.modules || ['node_modules']
     },
     module: {
-        rules: rules(settings),
-        noParse: /\.min(\.[\w]+)?$/
+        rules: rules(settings)
     },
     externals: settings.externals,
     optimization: settings.optimization || {

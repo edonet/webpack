@@ -9,19 +9,26 @@
 
 /**
  *****************************************
+ * 定义模板
+ *****************************************
+ */
+const code = `
+    if (module.exports) {
+        var locals = module.exports;
+
+        // 更新模块
+        module.exports = {
+            __esModule: true,
+            default: locals,
+            use: require("ylan/style").use(locals)
+        };
+    }
+`;
+
+
+/**
+ *****************************************
  * 加载器
  *****************************************
  */
-module.exports = function (content) {
-    let code = content.replace(
-            'exports.locals',
-            'exports.locals = { __esModule: true };\nexports.locals.default'
-        );
-
-
-    // 返回代码
-    return (
-        code +
-        '\n\nexports.locals.use = require("ylan/style").use(exports.locals.default);\n'
-    );
-};
+module.exports = value => [value, code].join('\n\n');

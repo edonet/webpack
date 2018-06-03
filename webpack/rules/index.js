@@ -55,7 +55,7 @@ module.exports = settings => {
         ...settings.rules,
         {
             test: /\.jsx?$/,
-            exclude: /node_modules[\\/]+(?!webpack-dev-server|ylan)/,
+            exclude: /node_modules[\\/]+(?!webpack-dev-server)/,
             loader: 'babel-loader',
             options: {
                 presets: [resolve('babel-preset-react-app')]
@@ -84,8 +84,8 @@ module.exports = settings => {
                 },
                 {
                     use: [
+                        resolve('./precss-loader.js'),
                         styleLoader,
-                        { loader: resolve('./precss-loader.js') },
                         loader('css', cssModules),
                         postcssLoader,
                         sassLoader
