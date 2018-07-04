@@ -1,5 +1,5 @@
 {
-    "name": "yack",
+    "name": "@arted/yack",
     "version": "0.0.1",
     "description": "Webpack for App",
     "main": "index.js",

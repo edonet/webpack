@@ -37,7 +37,8 @@ module.exports = ({ modules = [], ...settings }) => ({
     modules: [
         ...modules,
         cwd('./node_modules'),
-        dir('../node_modules')
+        dir('../node_modules'),
+        'node_modules'
     ],
     rules: settings.rules || [],
     alias: {
