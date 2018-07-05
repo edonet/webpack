@@ -1,4 +1,4 @@
-# yack
+# Yack
 A simple CLI for webpack.
 
 ## Installation
