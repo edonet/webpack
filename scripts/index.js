@@ -30,6 +30,7 @@ const
 yargs
     .alias('c', 'config')
     .alias('p', 'prod')
+    .boolean('https')
     .boolean('prod');
 
 

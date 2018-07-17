@@ -52,7 +52,7 @@ module.exports = ({ modules = [], ...settings }) => ({
         hotOnly: true,
         host: ip(),
         port: settings.port || 10060,
-        https: false,
+        https: settings.https || false,
         useLocalIp: true,
         publicPath: '/',
         disableHostCheck: true,

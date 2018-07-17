@@ -14,6 +14,7 @@
  */
 const
     MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+    workerLoader = require.resolve('../lib/worker-loader.js'),
     postCSSOptions = require('./postcss.conf'),
     isProduction = process.env.NODE_ENV === 'production',
     resolve = require.resolve;
@@ -56,10 +57,15 @@ module.exports = settings => {
         {
             test: /\.jsx?$/,
             exclude: /node_modules[\\/]+(?!webpack-dev-server)/,
-            loader: 'babel-loader',
-            options: {
-                presets: [resolve('babel-preset-react-app')]
-            }
+            use: [
+                {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [resolve('babel-preset-react-app')]
+                    }
+                },
+                workerLoader
+            ]
         },
         {
             test: /\.vue?$/,
