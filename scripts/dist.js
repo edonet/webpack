@@ -1,7 +1,7 @@
 /**
  *****************************************
  * Created by lifx
- * Created on 2018-04-01 11:11:44
+ * Created on 2018-08-08 09:52:39
  *****************************************
  */
 'use strict';
@@ -22,7 +22,8 @@ process.env.BABEL_ENV = 'production';
  *****************************************
  */
 const
-    fs = require('ylan/fs'),
+    fs = require('@arted/utils/fs'),
+    stdout = require('@arted/utils/stdout'),
     webpack = require('../webpack');
 
 
@@ -37,18 +38,14 @@ module.exports = async settings => {
     await fs.rmdir(settings.dist);
 
     // 打印输出信息
-    console.log(
-        '-'.repeat(80),
-        `\nProject is output to "${ settings.dist }"`,
-        `\n${ '-'.repeat(80) }`
-    );
+    stdout.block(`Project is output to "${ settings.dist }"`);
 
     // 开始编译
     webpack(settings).run((err, stats) => {
 
         // 处理错误信息
         if (err) {
-            return console.error(err);
+            return stdout.error(err);
         }
 
         // 打印编译信息

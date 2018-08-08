@@ -1,7 +1,7 @@
 /**
  *****************************************
  * Created by lifx
- * Created on 2018-05-28 14:08:06
+ * Created on 2018-08-08 10:25:50
  *****************************************
  */
 'use strict';
@@ -14,9 +14,7 @@
  */
 const
     MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-    workerLoader = require.resolve('../lib/worker-loader.js'),
     postCSSOptions = require('./postcss.conf'),
-    isProduction = process.env.NODE_ENV === 'production',
     resolve = require.resolve;
 
 
@@ -25,7 +23,7 @@ const
  * 定义生成加载器方法
  ****************************************
  */
-function loaderCreator() {
+function loaderCreator(isProduction) {
     return (name, options) => ({
         loader: name + '-loader',
         options: { sourceMap: isProduction, ...options }
@@ -35,19 +33,22 @@ function loaderCreator() {
 
 /**
  *****************************************
- * 生成加载规则
+ * 生成配置
  *****************************************
  */
 module.exports = settings => {
-    let loader = loaderCreator(),
+    let loader = loaderCreator(settings.prod),
+        sassLoader = loader('@arted/sass'),
         postcssLoader = loader('postcss', postCSSOptions),
-        sassLoader = loader('sass'),
-        styleLoader = isProduction ? MiniCssExtractPlugin.loader : loader('style'),
-        cssModules = {
-            minimize: isProduction,
-            modules: true,
-            camelCase: 'dashes',
-            localIdentName: '[local]-[hash:base64:8]'
+        styleLoader = settings.prod ? MiniCssExtractPlugin.loader : loader('style'),
+        cssLoader = {
+            loader: '@arted/css-loader',
+            options: {
+                minimize: settings.prod,
+                modules: true,
+                camelCase: 'dashes',
+                localIdentName: '[local]-[hash:base64:8]'
+            }
         };
 
 
@@ -55,54 +56,37 @@ module.exports = settings => {
     return [
         ...settings.rules,
         {
+            test: /\.worker\.js$/,
+            loader: 'worker-loader'
+        },
+        {
             test: /\.jsx?$/,
             exclude: /node_modules[\\/]+(?!webpack-dev-server)/,
-            use: [
-                {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [resolve('babel-preset-react-app')]
-                    }
-                },
-                workerLoader
-            ]
+            loader: 'babel-loader',
+            options: {
+                presets: [resolve('babel-preset-react-app')]
+            }
         },
         {
             test: /\.vue?$/,
             loader: 'vue-loader',
             options: {
-                cssModules,
+                cssModules: cssLoader.options,
                 postcss: postCSSOptions,
                 extractCSS: true
             }
         },
         {
             test: /\.s?css$/,
-            oneOf: [
-                {
-                    resourceQuery: /global/,
-                    use: [
-                        styleLoader,
-                        loader('css', { minimize: isProduction }),
-                        postcssLoader,
-                        sassLoader
-                    ]
-                },
-                {
-                    use: [
-                        resolve('./precss-loader.js'),
-                        styleLoader,
-                        loader('css', cssModules),
-                        postcssLoader,
-                        sassLoader
-                    ]
-                }
-            ]
+            use: [styleLoader, cssLoader, postcssLoader]
+        },
+        {
+            test: /\.scss$/,
+            loader: sassLoader
         },
         {
             test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
             loader: 'url-loader',
-            exclude: /[\\/]svgx[\\/]/,
             options: {
                 limit: 8192,
                 name: 'img/[name].[hash:8].[ext]'

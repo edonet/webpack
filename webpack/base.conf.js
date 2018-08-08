@@ -1,20 +1,10 @@
 /**
  *****************************************
  * Created by lifx
- * Created on 2018-05-28 14:05:12
+ * Created on 2018-08-08 10:21:30
  *****************************************
  */
 'use strict';
-
-
-/**
- *****************************************
- * 加载依赖
- *****************************************
- */
-const
-    rules = require('./rules'),
-    isProduction = process.env.NODE_ENV === 'production';
 
 
 /**
@@ -39,20 +29,20 @@ module.exports = settings => ({
         modules: settings.modules || ['node_modules']
     },
     module: {
-        rules: rules(settings)
+        rules: require('./rules.conf')(settings)
     },
     externals: settings.externals,
     optimization: settings.optimization || {
-        minimize: isProduction,
+        minimize: settings.prod,
         runtimeChunk: {
             name: 'manifest'
         },
         splitChunks: {
             cacheGroups: {
                 commons: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendor',
-                    chunks: 'all'
+                test: /[\\/]node_modules[\\/]/,
+                name: 'vendors',
+                chunks: 'all'
                 }
             }
         }

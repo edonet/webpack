@@ -13,8 +13,8 @@
  *****************************************
  */
 const
-    path = require('ylan/path'),
-    ip = require('ylan/ip'),
+    ip = require('@arted/utils/ip'),
+    path = require('@arted/utils/path'),
     cwd = path.cwd,
     dir = path.usedir(__dirname);
 
@@ -45,6 +45,7 @@ module.exports = ({ modules = [], ...settings }) => ({
         vue: 'vue/dist/vue.esm.js',
         ...settings.alias
     },
+    framework: settings.framework || 'react',
     externals: settings.externals || {},
     optimization: settings.optimization,
     devServer: {

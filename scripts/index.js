@@ -4,7 +4,7 @@
 /**
  *****************************************
  * Created by lifx
- * Created on 2018-03-31 22:04:58
+ * Created on 2018-08-08 09:26:01
  *****************************************
  */
 'use strict';
@@ -17,8 +17,9 @@
  */
 const
     yargs = require('yargs'),
-    fs = require('ylan/fs'),
-    stdout = require('ylan/stdout'),
+    fs = require('@arted/utils/fs'),
+    path = require('@arted/utils/path'),
+    stdout = require('@arted/utils/stdout'),
     settings = require('../settings');
 
 
@@ -46,13 +47,20 @@ async function run() {
 
     // 获取配置文件
     if (!config) {
-        config = await fs.find('yack.conf.js', 'yack.js', 'settings.js', 'settings.json');
+        let arr = ['settings.json', 'settings.js', 'yack.js', 'yack.conf.js'];
+
+        for (let name of arr) {
+            let file = path.cwd(name);
+
+            if (await fs.stat(file)) {
+                argv = { ...require(file), ...argv };
+                break;
+            }
+        }
     }
 
     /* 执行打包回调 */
-    await require(task)(
-        settings({ ...(config ? fs.resolve(config.path) : {}), ...argv })
-    );
+    await require(task)(settings(argv));
 }
 
 
@@ -62,5 +70,6 @@ async function run() {
  *****************************************
  */
 module.exports = run().catch(stdout.error);
+
 
 

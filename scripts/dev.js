@@ -1,7 +1,7 @@
 /**
  *****************************************
  * Created by lifx
- * Created on 2018-04-01 11:11:31
+ * Created on 2018-08-08 09:52:27
  *****************************************
  */
 'use strict';
@@ -22,6 +22,7 @@ process.env.BABEL_ENV = 'development';
  *****************************************
  */
 const
+    stdout = require('@arted/utils/stdout'),
     WebpackDevServer = require('webpack-dev-server'),
     webpack = require('../webpack');
 
@@ -57,12 +58,10 @@ module.exports = settings => {
         }
 
         // 打印服务器信息
-        console.log(
-            '-'.repeat(80),
-            `\nProject is running at ${ settings.publicPath }`,
-            `\nWebpack output is served from ${ publicPath }`,
-            `\nContent for webpack is served from ${ dist }`,
-            `\n${ '-'.repeat(80) }`
+        stdout.block(
+            `Project is running at ${ settings.publicPath }`,
+            `Webpack output is served from ${ publicPath }`,
+            `Content for webpack is served from ${ dist }`,
         );
     });
 };
