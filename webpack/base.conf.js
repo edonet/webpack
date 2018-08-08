@@ -33,16 +33,16 @@ module.exports = settings => ({
     },
     externals: settings.externals,
     optimization: settings.optimization || {
-        minimize: settings.prod,
+        minimize: settings.isProduction,
         runtimeChunk: {
             name: 'manifest'
         },
         splitChunks: {
             cacheGroups: {
                 commons: {
-                test: /[\\/]node_modules[\\/]/,
-                name: 'vendors',
-                chunks: 'all'
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
                 }
             }
         }

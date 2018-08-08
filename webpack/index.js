@@ -23,6 +23,6 @@ const webpack = require('webpack');
 module.exports = settings => (
     webpack({
         ...require('./base.conf')(settings),
-        ...require(settings.prod ? './dist.conf' : './dev.conf')(settings)
+        ...require(settings.isProduction ? './dist.conf' : './dev.conf')(settings)
     })
 );

@@ -37,14 +37,14 @@ function loaderCreator(isProduction) {
  *****************************************
  */
 module.exports = settings => {
-    let loader = loaderCreator(settings.prod),
+    let loader = loaderCreator(settings.isProduction),
         sassLoader = loader('@arted/sass'),
         postcssLoader = loader('postcss', postCSSOptions),
-        styleLoader = settings.prod ? MiniCssExtractPlugin.loader : loader('style'),
+        styleLoader = settings.isProduction ? MiniCssExtractPlugin.loader : loader('style'),
         cssLoader = {
             loader: '@arted/css-loader',
             options: {
-                minimize: settings.prod,
+                minimize: settings.isProduction,
                 modules: true,
                 camelCase: 'dashes',
                 localIdentName: '[local]-[hash:base64:8]'

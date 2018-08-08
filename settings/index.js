@@ -31,7 +31,7 @@ module.exports = ({ modules = [], ...settings }) => ({
     dist: cwd(settings.dist || 'dist'),
     index: settings.index || dir('./index.html'),
     entry: settings.entry || './index.js',
-    filename: settings.filename || 'js/[name].[chunkhash:8].js',
+    filename: settings.filename || 'js/[name].[contenthash:8].js',
     publicPath: settings.publicPath || './',
     copy: settings.copy || [],
     modules: [
@@ -45,6 +45,7 @@ module.exports = ({ modules = [], ...settings }) => ({
         vue: 'vue/dist/vue.esm.js',
         ...settings.alias
     },
+    isProduction: settings.prod,
     framework: settings.framework || 'react',
     externals: settings.externals || {},
     optimization: settings.optimization,
