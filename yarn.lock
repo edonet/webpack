@@ -9,6 +9,10 @@
     css-loader "^1.0.0"
     loader-utils "^1.1.0"
 
+"@arted/output-webpack-plugin@^0.0.101":
+  version "0.0.101"
+  resolved "https://registry.yarnpkg.com/@arted/output-webpack-plugin/-/output-webpack-plugin-0.0.101.tgz#4f39d1a09af8342459ed6e5d010f8c3d65dc5874"
+
 "@arted/sass-loader@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@arted/sass-loader/-/sass-loader-0.0.1.tgz#239411094fb6b8a00b2b52955f11c9ba04230368"

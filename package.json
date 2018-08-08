@@ -1,6 +1,6 @@
 {
     "name": "@arted/yack",
-    "version": "0.0.101",
+    "version": "0.0.102",
     "description": "Webpack for App",
     "main": "index.js",
     "bin": {
@@ -14,6 +14,7 @@
     "license": "MIT",
     "dependencies": {
         "@arted/css-loader": "^0.0.101",
+        "@arted/output-webpack-plugin": "^0.0.101",
         "@arted/sass-loader": "^0.0.1",
         "@arted/utils": "^0.0.116",
         "autoprefixer": "^9.1.0",

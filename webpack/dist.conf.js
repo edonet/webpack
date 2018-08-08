@@ -19,7 +19,7 @@ const
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
     MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-    OutputWebpackPlugin = require('./lib/output-webpack-plugin');
+    OutputWebpackPlugin = require('@arted/output-webpack-plugin');
 
 
 /**
