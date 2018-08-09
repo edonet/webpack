@@ -78,7 +78,7 @@ module.exports = settings => {
         },
         {
             test: /\.s?css$/,
-            use: [styleLoader, cssLoader, postcssLoader]
+            use: ['@arted/use-loader', styleLoader, cssLoader, postcssLoader]
         },
         {
             test: /\.scss$/,
@@ -91,6 +91,10 @@ module.exports = settings => {
                 limit: 8192,
                 name: 'img/[name].[hash:8].[ext]'
             }
+        },
+        {
+            test: /\.svg$/,
+            loader: 'var-loader'
         },
         {
             test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
