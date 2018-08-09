@@ -49,6 +49,12 @@ module.exports = settings => {
                 camelCase: 'dashes',
                 localIdentName: '[local]-[hash:base64:8]'
             }
+        },
+        useLoader = {
+            loader: '@arted/use-loader',
+            options: {
+                disabled: settings.framework === 'vue'
+            }
         };
 
 
@@ -78,7 +84,7 @@ module.exports = settings => {
         },
         {
             test: /\.s?css$/,
-            use: ['@arted/use-loader', styleLoader, cssLoader, postcssLoader]
+            use: [useLoader, styleLoader, cssLoader, postcssLoader]
         },
         {
             test: /\.scss$/,

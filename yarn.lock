@@ -22,9 +22,11 @@
     node-sass "^4.9.2"
     sass-loader "^7.1.0"
 
-"@arted/use-loader@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@arted/use-loader/-/use-loader-0.0.1.tgz#b020204f64ef7ededc290f34647960a9b1fdd290"
+"@arted/use-loader@^0.0.101":
+  version "0.0.101"
+  resolved "https://registry.yarnpkg.com/@arted/use-loader/-/use-loader-0.0.101.tgz#62c68f0b7e2ccbd23f56671abe2160b8705f8c2a"
+  dependencies:
+    loader-utils "^1.1.0"
 
 "@arted/utils@^0.0.116":
   version "0.0.116"

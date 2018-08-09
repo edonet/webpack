@@ -1,6 +1,6 @@
 {
     "name": "@arted/yack",
-    "version": "0.0.103",
+    "version": "0.0.104",
     "description": "Webpack for App",
     "main": "index.js",
     "bin": {
@@ -16,7 +16,7 @@
         "@arted/css-loader": "^0.0.102",
         "@arted/output-webpack-plugin": "^0.0.101",
         "@arted/sass-loader": "^0.0.101",
-        "@arted/use-loader": "^0.0.1",
+        "@arted/use-loader": "^0.0.101",
         "@arted/utils": "^0.0.116",
         "autoprefixer": "^9.1.0",
         "babel-core": "^6.26.3",
