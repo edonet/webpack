@@ -13,7 +13,9 @@
  *****************************************
  */
 const
+    path = require('path'),
     MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+    standLoader = require('@arted/stand-loader'),
     postCSSOptions = require('./postcss.conf'),
     resolve = require.resolve;
 
@@ -61,13 +63,16 @@ module.exports = settings => {
     // 返回规则
     return [
         ...settings.rules,
+        standLoader({
+            APP_STYLE: path.resolve(settings.src, settings.style)
+        }),
         {
             test: /\.worker\.js$/,
             loader: 'worker-loader'
         },
         {
             test: /\.jsx?$/,
-            exclude: /node_modules[\\/]+(?!webpack-dev-server)/,
+            exclude: /node_modules[\\/]+(?!(webpack-dev-server|@arted))/,
             loader: 'babel-loader',
             options: {
                 presets: [resolve('babel-preset-react-app')]

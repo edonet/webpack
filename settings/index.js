@@ -30,6 +30,7 @@ module.exports = ({ modules = [], ...settings }) => ({
     src: cwd(settings.src || 'src'),
     dist: cwd(settings.dist || 'dist'),
     index: settings.index || dir('./index.html'),
+    style: settings.style,
     entry: settings.entry || './index.js',
     filename: settings.filename || 'js/[name].[contenthash:8].js',
     publicPath: settings.publicPath || './',
