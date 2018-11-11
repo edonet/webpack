@@ -15,7 +15,6 @@
 const
     path = require('path'),
     webpack = require('webpack'),
-    VueLoaderPlugin = require('vue-loader/lib/plugin'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
     OutputWebpackPlugin = require('@arted/output-webpack-plugin');
@@ -39,8 +38,8 @@ module.exports = settings => ({
     mode: 'development',
     devtool: 'cheap-module-eval-source-map',
     plugins: [
-        new VueLoaderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
+        new CopyWebpackPlugin(settings.staticPath),
         new CopyWebpackPlugin(settings.copy),
         new HtmlWebpackPlugin({
             template: settings.index,
@@ -51,6 +50,7 @@ module.exports = settings => ({
                 collapseWhitespace: true
             }
         }),
-        new OutputWebpackPlugin({ data: settings.app })
+        new OutputWebpackPlugin({ data: settings.app }),
+        ...settings.plugins
     ]
 });

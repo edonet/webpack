@@ -43,11 +43,12 @@ yargs
 async function run() {
     let argv = yargs.argv,
         task = argv.prod ? './dist.js' : './dev.js',
-        config = argv.config;
+        config = argv.config,
+        staticPath = [path.cwd('public'), path.cwd('static')];
 
     // 获取配置文件
     if (!config) {
-        let arr = ['settings.json', 'settings.js', 'yack.js', 'yack.conf.js'];
+        let arr = ['yack.config.js', 'yack.config.json', 'app.config.js', 'app.config.json'];
 
         for (let name of arr) {
             let file = path.cwd(name);
@@ -58,6 +59,11 @@ async function run() {
             }
         }
     }
+
+    // 获取静态资源
+    argv.staticPath = [];
+    await fs.stat(staticPath[0]) && argv.staticPath.push(staticPath[0]);
+    await fs.stat(staticPath[1]) && argv.staticPath.push(staticPath[1]);
 
     /* 执行打包回调 */
     await require(task)(settings(argv));

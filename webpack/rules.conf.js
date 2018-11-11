@@ -13,9 +13,8 @@
  *****************************************
  */
 const
-    path = require('path'),
     MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-    standLoader = require('@arted/stand-loader'),
+    styleRule = require('@arted/style/rule'),
     postCSSOptions = require('./postcss.conf'),
     resolve = require.resolve;
 
@@ -63,9 +62,7 @@ module.exports = settings => {
     // 返回规则
     return [
         ...settings.rules,
-        standLoader({
-            APP_STYLE: path.resolve(settings.src, settings.style)
-        }),
+        styleRule,
         {
             test: /\.worker\.js$/,
             loader: 'worker-loader'
@@ -76,15 +73,6 @@ module.exports = settings => {
             loader: 'babel-loader',
             options: {
                 presets: [resolve('babel-preset-react-app')]
-            }
-        },
-        {
-            test: /\.vue?$/,
-            loader: 'vue-loader',
-            options: {
-                cssModules: cssLoader.options,
-                postcss: postCSSOptions,
-                extractCSS: true
             }
         },
         {

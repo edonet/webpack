@@ -15,7 +15,6 @@
 const
     path = require('path'),
     webpack = require('webpack'),
-    VueLoaderPlugin = require('vue-loader/lib/plugin'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
     MiniCssExtractPlugin = require('mini-css-extract-plugin'),
@@ -36,8 +35,8 @@ module.exports = settings => ({
         maxEntrypointSize: 1048576
     },
     plugins: [
-        new VueLoaderPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
+        new CopyWebpackPlugin(settings.staticPath),
         new CopyWebpackPlugin(settings.copy),
         new MiniCssExtractPlugin({
             filename: 'css/[name].[chunkhash:8].css',
@@ -52,6 +51,7 @@ module.exports = settings => ({
                 collapseWhitespace: true
             }
         }),
-        new OutputWebpackPlugin({ data: settings.app })
+        new OutputWebpackPlugin({ data: settings.app }),
+        ...settings.plugins
     ]
 });

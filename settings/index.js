@@ -34,6 +34,7 @@ module.exports = ({ modules = [], ...settings }) => ({
     entry: settings.entry || './index.js',
     filename: settings.filename || 'js/[name].[contenthash:8].js',
     publicPath: settings.publicPath || './',
+    staticPath: settings.staticPath || [],
     copy: settings.copy || [],
     modules: [
         ...modules,
@@ -42,8 +43,10 @@ module.exports = ({ modules = [], ...settings }) => ({
         'node_modules'
     ],
     rules: settings.rules || [],
+    plugins: settings.plugins || [],
     alias: {
-        vue: 'vue/dist/vue.esm.js',
+        '^arted$': 'arted/index.js',
+        '^arted': 'arted/lib',
         ...settings.alias
     },
     isProduction: settings.prod,
