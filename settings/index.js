@@ -41,7 +41,8 @@ module.exports = ({ modules = [], ...settings }) => ({
         ...modules,
         cwd('./node_modules'),
         dir('../node_modules'),
-        dir().replace(/node_modules.*?$/, 'node_modules')
+        dir().replace(/node_modules.*?$/, 'node_modules'),
+        'node_modules'
     ],
     rules: settings.rules || [],
     plugins: settings.plugins || [],
