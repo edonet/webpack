@@ -24,6 +24,7 @@ process.env.BABEL_ENV = 'development';
 const
     stdout = require('@arted/utils/stdout'),
     WebpackDevServer = require('webpack-dev-server'),
+    openUrl = require('open'),
     webpack = require('../webpack');
 
 
@@ -33,7 +34,7 @@ const
  *****************************************
  */
 module.exports = settings => {
-    let { dist, stats, devServer } = settings,
+    let { dist, stats, devServer, open } = settings,
         { https, host, port, publicPath } = devServer,
         server;
 
@@ -63,5 +64,10 @@ module.exports = settings => {
             `Webpack output is served from ${ publicPath }`,
             `Content for webpack is served from ${ dist }`,
         );
+
+        // 打开链接
+        if (open) {
+            openUrl(settings.publicPath, open === true ? 'chrome' : open);
+        }
     });
 };

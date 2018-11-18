@@ -31,6 +31,7 @@ const
 yargs
     .alias('c', 'config')
     .alias('p', 'prod')
+    .boolean('open')
     .boolean('https')
     .boolean('prod');
 

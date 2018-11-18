@@ -26,7 +26,7 @@ const
  */
 function loaderCreator(isProduction) {
     return (name, options) => ({
-        loader: name + '-loader',
+        loader: resolve(name + '-loader'),
         options: { sourceMap: isProduction, ...options }
     });
 }
@@ -43,7 +43,7 @@ module.exports = settings => {
         postcssLoader = loader('postcss', postCSSOptions),
         styleLoader = settings.isProduction ? MiniCssExtractPlugin.loader : loader('style'),
         cssLoader = {
-            loader: '@arted/css-loader',
+            loader: resolve('@arted/css-loader'),
             options: {
                 minimize: settings.isProduction,
                 modules: true,
@@ -52,7 +52,7 @@ module.exports = settings => {
             }
         },
         useLoader = {
-            loader: '@arted/use-loader',
+            loader: resolve('@arted/use-loader'),
             options: {
                 disabled: settings.framework === 'vue'
             }
@@ -65,12 +65,12 @@ module.exports = settings => {
         styleRule,
         {
             test: /\.worker\.js$/,
-            loader: 'worker-loader'
+            loader: resolve('worker-loader')
         },
         {
             test: /\.jsx?$/,
             exclude: /node_modules[\\/]+(?!(webpack-dev-server|@arted))/,
-            loader: 'babel-loader',
+            loader: resolve('babel-loader'),
             options: {
                 presets: [resolve('babel-preset-react-app')]
             }
@@ -85,7 +85,7 @@ module.exports = settings => {
         },
         {
             test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-            loader: 'url-loader',
+            loader: resolve('url-loader'),
             options: {
                 limit: 8192,
                 name: 'img/[name].[hash:8].[ext]'
@@ -93,11 +93,11 @@ module.exports = settings => {
         },
         {
             test: /\.svg$/,
-            loader: 'var-loader'
+            loader: resolve('var-loader')
         },
         {
             test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-            loader: 'url-loader',
+            loader: resolve('url-loader'),
             options: {
                 limit: 8192,
                 name: 'fonts/[name].[hash:8].[ext]'
@@ -105,11 +105,11 @@ module.exports = settings => {
         },
         {
             test: /\.icon$/,
-            loader: 'svgs-loader'
+            loader: resolve('svgs-loader')
         },
         {
             test: /\.(html|md|tpl)$/,
-            loader: 'raw-loader'
+            loader: resolve('raw-loader')
         }
     ];
 };
