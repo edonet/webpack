@@ -1,6 +1,6 @@
 {
     "name": "@arted/yack",
-    "version": "0.0.106",
+    "version": "0.0.107",
     "description": "Webpack for App",
     "main": "index.js",
     "bin": {
@@ -31,6 +31,7 @@
         "file-loader": "^2.0.0",
         "html-webpack-plugin": "^3.2.0",
         "mini-css-extract-plugin": "^0.4.4",
+        "open": "^0.0.5",
         "postcss-loader": "^3.0.0",
         "raw-loader": "^0.5.1",
         "react": "^16.6.1",
