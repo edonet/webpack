@@ -67,7 +67,14 @@ module.exports = settings => {
 
         // 打开链接
         if (open) {
-            openUrl(settings.publicPath, open === true ? 'chrome' : open);
+
+            // 获取默认浏览器
+            if (open === true) {
+                open = require('os').platform() === 'win32' ? 'chrome' : 'Google Chrome';
+            }
+
+            // 打开地址
+            openUrl(settings.publicPath, open);
         }
     });
 };
